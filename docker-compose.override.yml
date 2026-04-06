@@ -6,7 +6,9 @@ services:
       args:
         ENVIRONMENT: test
     environment:
-      - PROMETHEUS_MULTIPROC_DIR=/dev/shm # Enable prometheus metrics
+      - PROMETHEUS_MULTIPROC_DIR=/dev/shm
+      - PYTHONPATH=/code
+      - CUBEDASH_SETTINGS=/code/settings.env.py
     volumes:
       - ./:/code
       - ./.docker/.datacube_integration.conf:/root/.datacube_integration.conf

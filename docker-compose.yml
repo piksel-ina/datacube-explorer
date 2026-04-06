@@ -6,7 +6,7 @@ services:
       args:
         ENVIRONMENT: deployment
         EXPLORER_VERSION: ${EXPLORER_VERSION}
-    image: ghcr.io/opendatacube/explorer:tests
+    image: ghcr.io/opendatacube/explorer:3.1.5-43-g8aaa2dba
     ports:
       - "80:8080"
     environment:
@@ -33,7 +33,7 @@ services:
       - postgres
 
   postgres:
-    image: postgis/postgis:18-3.6
+    image: postgis/postgis:16-3.5
     hostname: postgres
     environment:
       - POSTGRES_DB=opendatacube
@@ -51,7 +51,20 @@ services:
         target: /var/lib/postgresql
     command: -c fsync=off -c full_page_writes=off -c synchronous_commit=off
     healthcheck:
-      test: ["CMD", "pg_isready", "-h", "postgres", "-q", "--port", "35433", "-d", "opendatacube", "-U", "opendatacube"]
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-h",
+          "postgres",
+          "-q",
+          "--port",
+          "35433",
+          "-d",
+          "opendatacube",
+          "-U",
+          "opendatacube",
+        ]
       timeout: 45s
       interval: 10s
       retries: 10
