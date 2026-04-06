@@ -1,0 +1,12 @@
+{
+    "name": "piksel",
+    "author": "Piksel",
+    "description": "Piksel Indonesia Theme",
+    "defaults": {
+        "default_map_zoom": 5,
+        "default_map_center": [
+            -2.5,
+            118.0
+        ]
+    }
+}

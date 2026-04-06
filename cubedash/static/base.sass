@@ -1,27 +1,30 @@
-$bold_highlight: #212121
+@use 'piksel-tokens' as *
 
-$content_background: lighten($bold_highlight, 75%)
+// Map Piksel design tokens to UI roles
+$bold_highlight: $text
 
-$header_base: lighten(#082e41, 5%)
-$breadcrumb_base: #00718b
-$menu_base: lighten($breadcrumb_base, 5%)
+$content_background: $background
+
+$header_base: $primary
+$breadcrumb_base: $accent-teal
+$menu_base: lighten($accent-teal, 5%)
 
 // Timeline widget on main map
-$timeline_base: lighten($header_base, 10%)
+$timeline_base: $primary-light
 // Color of buttons, popups, tooltips etc.
-$widget_base: $timeline_base
+$widget_base: $primary-lighter
 
 // The color of the little header in each panel
-$section_header_base: darken($header_base, 5%)
+$section_header_base: $primary-dark
 
-$header_highlight: lighten($bold_highlight, 12%)
-$panel_highlight: lighten($bold_highlight, 15%)
-$header_background: lighten($bold_highlight, 30%)
+$header_highlight: $primary-light
+$panel_highlight: $primary-light
+$header_background: $primary-darker
 
-$muted_text: lighten($bold_highlight, 32%)
+$muted_text: $text-lighter
 
-$panel_color: #e6edef
-$panel_odd_color: #fafafa
+$panel_color: $bg-surface
+$panel_odd_color: $ice-light
 
 
 :root
@@ -71,7 +74,7 @@ $panel_odd_color: #fafafa
 body
     font-family: Helvetica, Arial, sans-serif
     //background: linear-gradient(to bottom, desaturate(lighten($header_base, 10%), 100%) 90px, desaturate(lighten($header_base, 20%), 100%) 800px)
-    background: linear-gradient(to bottom, $header_base 90px, lighten($header_base, 15%) 800px)
+    background: linear-gradient(to bottom, $header_base 90px, $primary-dark 800px)
 
     min-height: calc(100vh - 50px)
     color: $bold_highlight
@@ -81,10 +84,10 @@ body
     max-width: 1024px
 
 html
-    scrollbar-color: #95d3f4 #d4dadc
+    scrollbar-color: $accent $steel
 
 a
-    color: #2b2b2b
+    color: $text
 
 ul
     list-style: square
@@ -109,7 +112,7 @@ ul
 
 
     #logo
-        color: #fff
+        color: $text-inverse
 
         img
             vertical-align: middle
@@ -122,7 +125,7 @@ ul
         > a
             display: inline-block
             text-decoration: none
-            color: #fff
+            color: $text-inverse
             white-space: nowrap
 
 
@@ -137,7 +140,7 @@ ul
 
             &::before
                 display: inline-block
-                border-left: 1px solid #fff
+                border-left: 1px solid $text-inverse
 
 
     #menu-link
@@ -151,10 +154,10 @@ ul
             justify-content: flex-end
             flex-direction: row
 
-        color: #dedede
+        color: $text-inverse
         a
             font-weight: bold
-            color: #dedede
+            color: $text-inverse
 
 
         .ex-menu-title, a
@@ -182,7 +185,7 @@ ul
                     &:hover
                         background-color: darken($menu_base, 5%)
                         a
-                            color: #fff
+                            color: $text-inverse
 
 
 
@@ -206,7 +209,7 @@ ul
                     display: none
                 #show-hidden-product
                     text-align: right
-                    color: #000
+                    color: $text
                     font-size:12px
 
 .logo-text, .instance-title
@@ -224,16 +227,16 @@ ul
 
 #breadcrumb
     background: $breadcrumb_base
-    color: #efefef
+    color: $text-inverse
     font-weight: bold
     @include wide_padding
 
     .item
-        color: #efefef
+        color: $text-inverse
 
 // Pages with tabs: put the tabs in the margin.
 header
-    color: #efefef
+    color: $text-inverse
     padding: 0
     display: flex
     flex-direction: row
@@ -242,7 +245,7 @@ header
 footer
     @include wide_padding
     text-align: right
-    color: #efefef
+    color: $text-inverse-muted
     font-size: 0.7em
     line-height: 2em
 
@@ -287,7 +290,7 @@ h1
     strong
         display: block
 
-    color: #333
+    color: $text
 
 h4
     color: lighten($bold_highlight, 18%)
@@ -332,10 +335,10 @@ ul
     z-index: 9999
     background: $panel_highlight
     padding: 13px 15px
-    color: #fff
+    color: $text-inverse
 
     a
-        color: lighten($widget_base, 10%)
+        color: lighten($accent, 10%)
 
 h1, h2, h3, h4, th
     .header-anchor
@@ -378,15 +381,15 @@ h1, h2, h3, h4, th
 
     &.highlight
         background: $panel_highlight
-        color: #efefef
+        color: $text-inverse
         border-bottom: 0
         > h1
-            color: #fff
+            color: $text-inverse
         a
-            color: #aeaeae
+            color: $text-inverse-muted
 
         .muted
-            color: darken(#efefef, 20%)
+            color: darken($text-inverse, 10%)
 
     // Allow horizontal scrolling rather than wrapping content
     &.overflowable
@@ -432,7 +435,7 @@ h1, h2, h3, h4, th
 
         .option-title
             &:hover
-                color: #fff
+                color: $text-inverse
 
         .option-menu
             background-color: $menu_base
@@ -474,7 +477,7 @@ h1, h2, h3, h4, th
         display: block
         text-decoration: none
         @include wide_padding
-        color: #fcfcfc
+        color: $text-inverse
         font-weight: bold
 
         &.active
@@ -483,7 +486,7 @@ h1, h2, h3, h4, th
         &:hover
             background-color: lighten($menu_base, 10%)
             text-decoration: underline
-            color: #fff
+            color: $text-inverse
 
     .option-menu
         display: none
@@ -619,7 +622,7 @@ button
     margin: 5px 0
     background-color: $widget_base
     border: 0
-    color: #fff
+    color: $text-inverse
     padding: 10px 15px
     cursor: pointer
     font-weight: bold
@@ -638,10 +641,10 @@ label
     text-transform: uppercase
     letter-spacing: 1px
     font-size: 10px
-    color: #333
+    color: $text
 
     &.disabled
-        color: #ccc
+        color: $steel
 
 .form-footer
     margin: 1em 0
@@ -663,7 +666,7 @@ label
     white-space: nowrap
     display: flex
     align-items: flex-end
-    border-bottom: 1px solid desaturate(lighten($timeline_base, 10%), 50%)
+    border-bottom: 1px solid $steel
 
 
 .chart-timeline-bar
@@ -687,7 +690,7 @@ label
     text-align: left
     font-size: 10px
     font-weight: normal
-    color: #333
+    color: $text
     transform: translateY(calc(100% + 5px)) rotate(45deg)
 
     transform-origin: top left
@@ -696,7 +699,7 @@ label
         z-index: 100
         font-size: 12px
         padding: 5px 10px
-        color: #fff
+        color: $text-inverse
         background-color: $widget_base
         display: none
 
@@ -714,7 +717,7 @@ label
 // An adornment to a title. Such as the data type.
 .badge
     font-size: 0.7em
-    background-color: #ccc
+    background-color: $steel
     white-space: nowrap
     padding: 2px 4px
 
@@ -725,7 +728,7 @@ label
     // A highlighted panel is reverse contrast: dark background, light foreground.
     .panel.highlight &
         background: darken($panel_highlight, 15%)
-        color: #efefef
+        color: $text-inverse
 
     // If it's in a header
     .header-follow &:not(:first-child)
@@ -775,7 +778,7 @@ details > summary
 // Lighten borders
 .grid-form
 
-    +grid-form($grid-border-color: #777, $field-focus-color: lighten(#adb0b3, 8%))
+    +grid-form($grid-border-color: $steel, $field-focus-color: $ice)
 
     [data-row-span].disabled
         display: none
@@ -787,8 +790,8 @@ details > summary
 .leaflet-tooltip
     position: absolute
     padding: 5px 10px
-    color: #fff
-    background-color: #637c6b
+    color: $text-inverse
+    background-color: $primary-light
     border: 0
     border-radius: 0
     box-shadow: unset
