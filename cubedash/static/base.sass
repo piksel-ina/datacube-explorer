@@ -1,44 +1,65 @@
 @use 'piksel-tokens' as *
 
-// Map Piksel design tokens to UI roles
-$bold_highlight: $text
+// ============================================================
+// UI ROLE MAPPING
+// ============================================================
 
-$content_background: $background
+// Header bar (logo + navigation menu)
+$header-bg:         $body-bg
+$header-text:       $menu-text
 
-$header_base: $primary
-$breadcrumb_base: $accent-teal
-$menu_base: lighten($accent-teal, 5%)
+// Header dropdown items (Products, Types, Explore menus)
+$dropdown-item-bg:  $dropdown-item-bg
+$dropdown-item-border: $dropdown-item-border
+$dropdown-hover:    $ice
 
-// Timeline widget on main map
-$timeline_base: $primary-light
-// Color of buttons, popups, tooltips etc.
-$widget_base: $primary-lighter
+// Breadcrumb bar
+$breadcrumb-bg:     $primary
+$breadcrumb-text:   $text-inverse
 
-// The color of the little header in each panel
-$section_header_base: $primary-dark
+// Content panels
+$panel-bg:          $surface
+$panel-alt-bg:      $surface-alt
 
-$header_highlight: $primary-light
-$panel_highlight: $primary-light
-$header_background: $primary-darker
+// Panel with left accent border (products page)
+$highlight-border:  $primary
+$highlight-heading: $primary-dark
 
-$muted_text: $text-lighter
+// Product selector bar (dark bar only, not its dropdown children)
+$selectbar-bg:      #303236
+$selectbar-text:    $text-inverse
 
-$panel_color: $bg-surface
-$panel_odd_color: $ice-light
+// Links
+$link-color:        $accent
 
+// Buttons & widgets
+$button-bg:         $primary-lighter
+$tooltip-bg:        $primary-light
+
+// Badges (Stac, Yaml, Text)
+$badge-bg:          $ice
+$badge-text:        $primary
+
+// Section headings inside panels
+$section-heading:   $primary-dark
+
+// Muted text
+$muted-text:        $text-lighter
+
+// Footer
+$footer-bg:         $footer-bg
+$footer-text:       $footer-text
+
+// ============================================================
+// LAYOUT
+// ============================================================
 
 :root
-    // "s" is the default spacing throughout our layout.
-    // Margins, gaps, paddings are calculated as a multiple of it.
     --s: 15px
 
-    // (Previously we made it smaller on smaller screens... which is why it exists)
-
-// Adjust standard padding based on screen width. We can't use CSS vars due to IE support.
 @mixin box_padding($scale_top:1, $scale_bottom:1, $scale_horizontal:1)
     padding: calc(var(--s)*#{$scale_top}) calc(2*var(--s)*#{$scale_horizontal}) calc(var(--s)*#{$scale_bottom})
 
-// Add the standard padding multiples, but only on the left side.
 @mixin left_padding($scale:1)
     padding-left: calc(var(--s)*#{$scale})
 
@@ -56,29 +77,23 @@ $panel_odd_color: $ice-light
     @include box_padding(2, 2)
 
 @mixin header_padding
-    // Place a header closer to its contents below.
     @include box_padding(2, 1)
 
-
-// On small screens, move the description to the info panel.
 .product-description
     display: none
 
 @media (max-width: 600px)
     .option-description
         display: none
-
     .product-description
         display: block
 
 body
     font-family: Helvetica, Arial, sans-serif
-    //background: linear-gradient(to bottom, desaturate(lighten($header_base, 10%), 100%) 90px, desaturate(lighten($header_base, 20%), 100%) 800px)
-    background: linear-gradient(to bottom, $header_base 90px, $primary-dark 800px)
-
+    background: $body-bg
     min-height: calc(100vh - 50px)
-    color: $bold_highlight
-    font-size: 0.86em
+    color: $text
+    font-size: 0.9em
     margin: 0 auto
     padding: 0 15px
     max-width: 1024px
@@ -87,7 +102,8 @@ html
     scrollbar-color: $accent $steel
 
 a
-    color: $text
+    color: $link-color
+    text-decoration: none
 
 ul
     list-style: square
@@ -95,40 +111,31 @@ ul
 .content-wrapper
     position: relative
 
+// === HEADER ===
+
 .header
-    background: $header_base
-
+    background: $header-bg
+    border-radius: 0 0 4px 4px
     @include box_padding($scale_top:2, $scale_bottom:1, $scale_horizontal:1)
-
     display: flex
-    // On a phone, stack the header vertically.
     @media (max-width: 750px)
         flex-direction: column
-
     justify-content: space-between
-
     &::after
         clear: both
 
-
     #logo
-        color: $text-inverse
-
+        color: $header-text
         img
             vertical-align: middle
             padding-right: 2px
             display: inline-block
-            // We don't want a tall image (Africa!) to shift our text height calculation.
-            // So make the space small and let it overflow.
             margin: -10px 0
-
         > a
             display: inline-block
             text-decoration: none
-            color: $text-inverse
+            color: $header-text
             white-space: nowrap
-
-
         > .instance-title
             padding-left: 10px
             margin-left: 10px
@@ -137,29 +144,21 @@ ul
                 position: absolute
                 bottom: 0
                 left: 0
-
             &::before
                 display: inline-block
-                border-left: 1px solid $text-inverse
-
+                border-left: 1px solid $header-text
 
     #menu-link
         text-align: left
-
-        // Negative offset for the padding on the buttons.
         @include horiz_margin($scale:-1)
-
         > ul
             display: flex
             justify-content: flex-end
             flex-direction: row
-
-        color: $text-inverse
+        color: $header-text
         a
             font-weight: bold
-            color: $text-inverse
-
-
+            color: $header-text
         .ex-menu-title, a
             cursor: pointer
             @include box_padding($scale_horizontal: 0.5)
@@ -167,110 +166,112 @@ ul
             white-space: nowrap
             text-decoration: none
         .ex-menu-title:hover
-            background-color: $menu_base
+            background-color: rgba(0, 0, 0, 0.06)
         .is-open > .ex-menu-title
-            background-color: $menu_base
-
+            background-color: rgba(0, 0, 0, 0.09)
         a:hover
-            color: $panel_highlight
+            color: $header-text
         ul
             padding: 0
             margin: 0
             > li
                 list-style: none
                 position: relative
-
                 > ul > li
-                    background: $menu_base
+                    background: $dropdown-item-bg
+                    border-bottom: 1px solid $dropdown-item-border
                     &:hover
-                        background-color: darken($menu_base, 5%)
-                        a
-                            color: $text-inverse
-
-
+                        background-color: $dropdown-hover
+                    a
+                        color: $text
 
         .ex-menu > ul
             display: none
         .ex-menu.is-open > ul
             display: block
-
             position: absolute
             top: 100%
             left: 0
             &.left
                 left: initial
                 right: 0
-
-            // Above maps etc.
             z-index: 10000
-
+            background: $dropdown-item-bg
+            border-radius: 0 0 4px 4px
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
             li
                 .hide
                     display: none
                 #show-hidden-product
                     text-align: right
                     color: $text
-                    font-size:12px
+                    font-size: 12px
 
 .logo-text, .instance-title
     display: inline-block
     @include box_padding(1, 1, 0)
 
-// Menus that are expandable
 .ex-menu-title
-    // This hints to touch devices (such as iPads) to trigger "hover" on click rather than select the text.
     cursor: pointer
-
     &::after
         content: ' ▾'
         font-size: 0.8em
 
+// === BREADCRUMB ===
+
 #breadcrumb
-    background: $breadcrumb_base
-    color: $text-inverse
-    font-weight: bold
+    background: $breadcrumb-bg
+    color: $breadcrumb-text
+    font-weight: 600
+    font-size: 0.9em
     @include wide_padding
-
     .item
-        color: $text-inverse
+        color: $breadcrumb-text
+    a.item
+        color: $breadcrumb-text
+        &:hover
+            color: $ice
 
-// Pages with tabs: put the tabs in the margin.
+// === PRODUCT SELECTOR BAR ===
+
 header
-    color: $text-inverse
+    color: $selectbar-text
     padding: 0
     display: flex
     flex-direction: row
-    background: $header_background
+    background: $selectbar-bg
+
+// === FOOTER ===
 
 footer
     @include wide_padding
     text-align: right
-    color: $text-inverse-muted
-    font-size: 0.7em
+    color: $footer-text
+    font-size: 0.75em
     line-height: 2em
+    background: $footer-bg
+    border-top: 1px solid $table-border
+
+// === CONTENT ===
 
 #content
     clear: right
     position: relative
     width: auto
-    background: $panel_color
+    background: $panel-bg
+    border-radius: 4px
 
 .map-panel
     width: 100%
 
-// Spatial page
 #map
-    // Overridden below for wider displays.
     height: 400px
 
-// show two columns on wide displays
 @media (min-width: 800px)
     .panels
         display: flex
-
     .info-panel
         width: 250px
-
     #map
         flex: 1 1
         height: 100%
@@ -286,24 +287,17 @@ h1
     line-height: 30px
     font-size: 18px
     font-weight: normal
-
     strong
         display: block
-
     color: $text
 
 h4
-    color: lighten($bold_highlight, 18%)
+    color: lighten($text, 18%)
 
-// A Header followed by smaller text on the same line
 h2.followed, h3.followed
     display: inline-block
-
-    // If the header is the only thing in the panel, the follower
-    // can stop normal margin collapse. So we'll manually do it.
     &.lonesome
         margin-bottom: 0
-
 
 .header-follow
     display: inline-block
@@ -312,19 +306,14 @@ h2.followed, h3.followed
 ul:last-child, ol:last-child
     margin-bottom: 0
 
-// The default list indent should be a multiple of normal padding
 ul
     @include left_padding(2)
-
-    // Quiet list: not adorned with bullets or anything.
     &.quiet
         list-style: none
         padding-left: 0
         margin: 0
-
         li::marker
-            color: $muted_text
-            //content: "►"
+            color: $muted-text
 
 .message-box
     position: absolute
@@ -333,10 +322,9 @@ ul
     width: 200px
     text-align: center
     z-index: 9999
-    background: $panel_highlight
+    background: $selectbar-bg
     padding: 13px 15px
     color: $text-inverse
-
     a
         color: lighten($accent, 10%)
 
@@ -345,16 +333,16 @@ h1, h2, h3, h4, th
         text-decoration: none
         font-size: 0.7em
         opacity: 0.6
-        // Displayed on hover (below)
         visibility: hidden
     &:hover .header-anchor
         visibility: visible
 
+// === PANELS ===
+
 .panel
     @include square_padding
     line-height: 1.7em
-    background: $panel_color
-
+    background: $panel-bg
     h1, h2, h3, h4
         margin: calc(2*var(--s)) 0 var(--s)
         &:first-child
@@ -362,39 +350,32 @@ h1, h2, h3, h4, th
         &:last-child
             margin-bottom: 0
         &.followed
-          margin-right: 10px
-
+            margin-right: 10px
     p, .p
         margin: var(--s) 0
         &:first-child
             margin-top: 0
         &:last-child
             margin-bottom: 0
-
     h3
         font-size: 1.3em
-        color: $section_header_base
-
+        color: $section-heading
     &.odd
-        background-color: $panel_odd_color
+        background-color: $panel-alt-bg
         border-bottom: 0
-
     &.highlight
-        background: $panel_highlight
-        color: $text-inverse
+        background: $panel-bg
+        color: $text
         border-bottom: 0
-        > h1
-            color: $text-inverse
+        border-left: 4px solid $highlight-border
+        > h1, > h2
+            color: $highlight-heading
         a
-            color: $text-inverse-muted
-
+            color: $link-color
         .muted
-            color: darken($text-inverse, 10%)
-
-    // Allow horizontal scrolling rather than wrapping content
+            color: $muted-text
     &.overflowable
         overflow-x: auto
-
     .dataset-location
         @media (max-width: 750px)
             table
@@ -409,117 +390,95 @@ h1, h2, h3, h4, th
     @media (max-width: 590px)
         column-count: 1
 
+// === HEADER OPTIONS (product/year/month selector) ===
+
 .header-option
     position: relative
     border-collapse: collapse
     vertical-align: bottom
-
-    background-color: $panel_highlight
-
-    // Has limited, short options. Like a year or month.
-    // So we never want them wrapping.
+    background-color: $selectbar-bg
+    color: $selectbar-text
     &.limited
         white-space: nowrap
-
     &:hover
-        background-color: lighten($panel_highlight, 5%)
+        background-color: lighten($selectbar-bg, 5%)
     &.primary
-        background-color: $header_highlight
+        background-color: $selectbar-bg
         &:hover
-            background-color: lighten($header_highlight, 10%)
-
+            background-color: lighten($selectbar-bg, 10%)
     &.is-open
-        background-color: $menu_base
+        background-color: $selectbar-bg
         &:hover
-            background-color: $menu_base
-
+            background-color: $selectbar-bg
         .option-title
             &:hover
-                color: $text-inverse
-
+                color: $selectbar-text
         .option-menu
-            background-color: $menu_base
+            background-color: $panel-bg
             display: table
-
     .option-title
         font-size: 1em
         font-weight: normal
+        color: $selectbar-text
         line-break: anywhere
-
     .group-name
         margin: 0
         @include header_padding
         font-size: 0.8em
-        color: $bold_highlight
+        color: $text
         text-transform: lowercase
-
-
     > .option-title
         @include wide_padding
         margin: 0
         line-height: 1.75em
         flex: 1 1
-
-        // This hints to touch devices (such as iPads) to trigger "hover" on click rather than select the text.
         cursor: pointer
-
         &::after
             content: ' ▾'
-
     ul
         margin: 0
         padding: 0
         list-style: none
         li
             margin: 0
-
     a.option-menu-link
         display: block
         text-decoration: none
         @include wide_padding
-        color: $text-inverse
+        color: $text
         font-weight: bold
-
         &.active
-            background-color: lighten($menu_base, 5%)
-
+            background-color: $dropdown-hover
+            color: $link-color
         &:hover
-            background-color: lighten($menu_base, 10%)
-            text-decoration: underline
-            color: $text-inverse
-
+            background-color: $dropdown-hover
+            color: $link-color
     .option-menu
         display: none
         position: absolute
         top: 100%
         left: 0
-
+        background: $panel-bg
+        border-radius: 0 0 4px 4px
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
         li.empty
             opacity: 0.6
-
             a.option-menu-link
                 font-weight: normal
-
         &.left
             left: initial
             right: 0
-
-        // Above maps etc
         z-index: 10000
-
         > ul
             display: table-row
             & > li
                 display: table-cell
-
         > .footer
             @include wide_padding
-    // The "All" menu items
     .wildcard
         font-weight: bold
 
-
-/* Table of values
+// === TABLES ===
 
 table.collapsed-head
     th
@@ -532,64 +491,49 @@ table.collapsed-head
 
 .unavailable-metadata tbody
     tr:nth-child(even)
-        background-color: darken($panel_color, 3%)
-
+        background-color: darken($panel-bg, 3%)
     tr:nth-child(odd)
-        background-color: lighten($panel_color, 1%)
-
+        background-color: lighten($panel-bg, 1%)
 
 .data-table
-    // Negate the horizontal margin as we have our own cell padding.
     margin: 0 calc(-2*var(--s)) var(--s)
-
-    // On a small screen (eg: phone), these cells can
-    // be collapsed to a vertical list.
     @media (max-width: 750px)
         .collapse-when-small
             display: block
             margin-top: var(--s)
-
             td
                 display: block
-
-    tbody tr:hover
-        // Add a row hover for data-intensive tables.
-        background-color: darken($panel_color, 5%)
-
-        .panel.highlight &
-            background-color: darken($panel_highlight, 4%)
-
+    tbody tr
+        border-bottom: 1px solid $table-border
+        &:hover
+            background-color: $table-row-hover
+            .panel.highlight &
+                background-color: $dropdown-hover
         .panel.odd &
-            background-color: darken($panel_odd_color, 4%)
-
+            background-color: darken($panel-alt-bg, 2%)
     th
         font-weight: bold
         font-size: 0.8em
-
     tr.section-header th
         padding-top: var(--s)
-
     td, th
         padding: 0 calc(2*var(--s))
-
         text-align: left
         @media (min-width: 800px)
             line-height: calc(var(--s)*2)
         vertical-align: top
-
-        // Numeric columns right-aligned for readability, like Excel.
         &.numeric
             text-align: right
-
-        // A column that we'd prefer not to be too tiny. Whitespace adds emphasis.
         &.important-column
             min-width: 90px
+
 .right
     text-align: right
+
 .numeric
     font-variant-numeric: tabular-nums
 
-/* lists of key-values
+// === QUERY PARAMS ===
 
 .query-param-list
     width: auto
@@ -603,9 +547,8 @@ table.collapsed-head
 .query-param, .query-param-search
     display: block
     > .value
-        color: $muted_text
+        color: $muted-text
         word-break: break-all
-
     .missing-value
         text-decoration-style: wavy
         text-decoration-line: underline
@@ -618,31 +561,36 @@ table.collapsed-head
     &:hover > .search-icon
         visibility: visible
 
+// === BUTTONS ===
+
 button
     margin: 5px 0
-    background-color: $widget_base
+    background-color: $button-bg
     border: 0
     color: $text-inverse
     padding: 10px 15px
     cursor: pointer
     font-weight: bold
     font-size: inherit
-
+    border-radius: 3px
     &:hover
-        background-color: $widget_base
-
+        background-color: lighten($button-bg, 5%)
     &.small
         margin: 0
         font-size: 12px
-        background-color: $panel_highlight
+        background-color: $selectbar-bg
 
-// Similar to gridforms style
+// === FORMS ===
+
+input[type="radio"],
+input[type="checkbox"]
+    accent-color: $accent
+
 label
     text-transform: uppercase
     letter-spacing: 1px
     font-size: 10px
     color: $text
-
     &.disabled
         color: $steel
 
@@ -651,11 +599,12 @@ label
     > label
         padding: 8px
         display: block
-
     select
         padding: 6px
         width: 100%
         text-overflow: ellipsis
+
+// === TIMELINE CHART ===
 
 .chart-timeline
     padding: var(--s) calc(3*var(--s)) var(--s) 0
@@ -668,18 +617,15 @@ label
     align-items: flex-end
     border-bottom: 1px solid $steel
 
-
 .chart-timeline-bar
     display: block
     position: relative
-    $graph_highlight: $timeline_base
-    background-color: $graph_highlight
-
+    $bar-color: $primary-light
+    background-color: $bar-color
     &.new-year
-        background-color: darken($graph_highlight, 5%)
+        background-color: darken($bar-color, 5%)
     &:hover
-        background-color: darken($graph_highlight, 10%)
-
+        background-color: darken($bar-color, 10%)
         .chart-timeline-year.tooltip
             display: block
 
@@ -692,48 +638,42 @@ label
     font-weight: normal
     color: $text
     transform: translateY(calc(100% + 5px)) rotate(45deg)
-
     transform-origin: top left
-
     &.tooltip
         z-index: 100
         font-size: 12px
         padding: 5px 10px
         color: $text-inverse
-        background-color: $widget_base
+        background-color: $button-bg
         display: none
 
+// === MISC ===
 
 .relative
     position: relative
 
-// De-emphasized, less-important text
 .muted
-    color: $muted_text
+    color: $muted-text
+
 .addendum
     font-size: 0.7em
     font-weight: normal
 
-// An adornment to a title. Such as the data type.
 .badge
     font-size: 0.7em
-    background-color: $steel
+    background-color: $badge-bg
+    color: $badge-text
     white-space: nowrap
-    padding: 2px 4px
-
-    // 'font-awesome' icons
+    padding: 2px 8px
+    border-radius: 3px
+    text-decoration: none
     .fa
         font-size: 1.1em
-
-    // A highlighted panel is reverse contrast: dark background, light foreground.
     .panel.highlight &
-        background: darken($panel_highlight, 15%)
-        color: $text-inverse
-
-    // If it's in a header
+        background: $badge-bg
+        color: $badge-text
     .header-follow &:not(:first-child)
         margin-left: 10px
-
     &.header-badge
         font-size: inherit
 
@@ -745,22 +685,18 @@ label
 .raw-metadata
     .property
         font-family: 'Courier New', monospace
-
         .property, .array, .array-item
             padding-left: var(--s)
-
         & > .value
-            color: $muted_text
+            color: $muted-text
             line-break: anywhere
             white-space: pre-line
-
         summary
             font-style: italic
-            color: $muted_text
+            color: $muted-text
 
-// Information box shown when hovering a map dataset
 .dataset-info
-    background-color: $panel_odd_color
+    background-color: $panel-alt-bg
     margin: 10px
     padding: 15px
 
@@ -768,44 +704,47 @@ label
     margin: 0
     padding: 0
 
-
 details > summary
-  cursor: pointer
+    cursor: pointer
+
+.option-description
+    color: $muted-text
+    font-weight: normal
+    font-size: 0.9em
+
+.data-table a
+    font-weight: bold
+    color: $primary-lighter
+
+// === EXTERNAL LIBRARIES ===
 
 @import gridforms/gridforms.sass
 
-// Minor tweak of gridforms defaults
-// Lighten borders
 .grid-form
-
     +grid-form($grid-border-color: $steel, $field-focus-color: $ice)
-
     [data-row-span].disabled
         display: none
 
 @import "leaflet-1.7.1/leaflet"
 @import "leaflet-groupedlayercontrol/leaflet.groupedlayercontrol"
 
-
 .leaflet-tooltip
     position: absolute
     padding: 5px 10px
     color: $text-inverse
-    background-color: $primary-light
+    background-color: $tooltip-bg
     border: 0
-    border-radius: 0
-    box-shadow: unset
+    border-radius: 3px
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15)
     font-size: 12px
-
     &.regions-tooltip
-        background-color: $widget_base
+        background-color: $button-bg
 
-// The little arrow that points on the map
 .leaflet-tooltip-top:before
-    border-top-color: $widget_base
+    border-top-color: $button-bg
 .leaflet-tooltip-bottom:before
-    border-bottom-color: $widget_base
+    border-bottom-color: $button-bg
 .leaflet-tooltip-left:before
-    border-left-color: $widget_base
+    border-left-color: $button-bg
 .leaflet-tooltip-right:before
-    border-right-color: $widget_base
+    border-right-color: $button-bg

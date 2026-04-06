@@ -1,7 +1,7 @@
 {
-    "name": "piksel",
-    "author": "Piksel",
-    "description": "Piksel Indonesia Theme",
+    "name": "big",
+    "author": "Badan Informasi Geospasial",
+    "description": "BIG Indonesia Theme",
     "defaults": {
         "default_map_zoom": 5,
         "default_map_center": [
