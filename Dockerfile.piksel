@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+FROM ghcr.io/opendatacube/explorer:3.1.5-43-g8aaa2dba
+
+LABEL org.opencontainers.image.source=https://github.com/opendatacube/datacube-explorer
+
+COPY --chown=1000:1000 cubedash/static/base.css /code/cubedash/static/base.css
+COPY --chown=1000:1000 cubedash/themes/piksel /code/cubedash/themes/piksel
+
+ENV CUBEDASH_THEME=piksel
