@@ -525,6 +525,9 @@ def inject_globals():
         "explorer_sister_instances": current_app.config.get(
             "CUBEDASH_SISTER_SITES", None
         ),
+        "explorer_logo_url": current_app.config.get(
+            "CUBEDASH_LOGO_URL", url_for("pages.default_redirect")
+        ),
         "breadcrumb": _get_breadcrumbs(request.path, request.script_root),
     }
 
