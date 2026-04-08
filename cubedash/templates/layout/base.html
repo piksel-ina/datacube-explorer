@@ -33,7 +33,7 @@
 <div class="content-wrapper">
     <div class="header">
         <div id="logo">
-            <a href="{{ explorer_logo_url }}">
+            <a href="{{ url_for('pages.default_redirect') }}">
                 {% include theme('logo.html') %}
             </a>
             {%- if explorer_instance_title -%}

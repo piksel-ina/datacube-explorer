@@ -1,6 +1,6 @@
-# AGENTS.md — datacube-explorer (Piksel fork)
+# AGENTS.md — datacube-explorer (DE Indonesia fork)
 
-Fork of [datacube-explorer](https://github.com/opendatacube/datacube-explorer) customised for the Piksel project. Focus is UI theming and visual customisation, not upstream features.
+Fork of [datacube-explorer](https://github.com/opendatacube/datacube-explorer) customised for the DE Indonesia project. Focus is UI theming and visual customisation, not upstream features.
 
 ## Local dev environment (Docker)
 
@@ -41,7 +41,7 @@ Existing themes to reference as examples: `odc/`, `dea/`, `deafrica/`.
 Set in `.docker/settings_docker.py` (used by Docker Compose override):
 
 ```python
-CUBEDASH_THEME = "piksel"
+CUBEDASH_THEME = "deindonesia"
 ```
 
 Or via the `CUBEDASH_SETTINGS` env var pointing to a `.env.py` file.

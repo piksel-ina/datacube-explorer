@@ -1,0 +1,10 @@
+# syntax=docker/dockerfile:1
+FROM ghcr.io/opendatacube/explorer:3.1.5-43-g8aaa2dba
+
+LABEL org.opencontainers.image.source=https://github.com/piksel-ina/datacube-explorer
+LABEL org.opencontainers.image.description="Datacube Explorer — DE Indonesia"
+LABEL org.opencontainers.image.licences="Apache-2.0"
+
+COPY --chown=1000:1000 cubedash/static/base.css /app/lib/python3.12/site-packages/cubedash/static/base.css
+COPY --chown=1000:1000 cubedash/static/base.css.map /app/lib/python3.12/site-packages/cubedash/static/base.css.map
+COPY --chown=1000:1000 cubedash/themes/deindonesia/ /app/lib/python3.12/site-packages/cubedash/themes/deindonesia/

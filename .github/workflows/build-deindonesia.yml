@@ -33,14 +33,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Compute Explorer version
-        id: version
-        run: |
-          VERSION="$(git describe --tag | sed 's#-g#+g#')"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -69,12 +61,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: Dockerfile.piksel
+          file: Dockerfile.deindonesia
           push: true
           tags: ${{ needs.prepare-tag.outputs.full_image_tag }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            EXPLORER_VERSION=${{ steps.version.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
