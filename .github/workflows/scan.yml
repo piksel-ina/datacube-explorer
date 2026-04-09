@@ -19,7 +19,7 @@ jobs:
   cve-scanner:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    if: github.event_name != 'release'
+    if: github.event_name != 'release' && github.ref == 'refs/heads/develop'
     permissions:
       security-events: write
     steps:
