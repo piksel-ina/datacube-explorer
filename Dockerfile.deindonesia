@@ -5,6 +5,18 @@ LABEL org.opencontainers.image.source=https://github.com/piksel-ina/datacube-exp
 LABEL org.opencontainers.image.description="Datacube Explorer — DE Indonesia"
 LABEL org.opencontainers.image.licences="Apache-2.0"
 
+# --- Local Python patches (see README "Local patches to upstream" section) ---
+# Patch cubedash/index/postgis/_api.py: use ST_MakeValid(..., 'method=structure')
+# on individual footprints before ST_Union in upsert_product_regions.
+# The upstream ST_Buffer(footprint, 0) self-repair is not enough for some
+# S2 L2A footprints from Element84, which pass ST_IsValid but still trigger
+# a GEOS OverlayNG "side location conflict" under ST_Union.
+# Remove this RUN block once the fix is landed upstream.
+RUN F=/app/lib/python3.12/site-packages/cubedash/index/postgis/_api.py && \
+    grep -q 'ST_Union(cubedash.dataset_spatial.footprint)' "$F" && \
+    sed -i "s|ST_Union(cubedash\.dataset_spatial\.footprint)|ST_Union(ST_MakeValid(cubedash.dataset_spatial.footprint, 'method=structure'))|" "$F" && \
+    grep -q "ST_MakeValid(cubedash.dataset_spatial.footprint, 'method=structure')" "$F"
+
 COPY --chown=1000:1000 cubedash/static/base.css /app/lib/python3.12/site-packages/cubedash/static/base.css
 COPY --chown=1000:1000 cubedash/static/base.css.map /app/lib/python3.12/site-packages/cubedash/static/base.css.map
 COPY --chown=1000:1000 cubedash/themes/deindonesia/ /app/lib/python3.12/site-packages/cubedash/themes/deindonesia/

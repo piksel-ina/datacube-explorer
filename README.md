@@ -1,4 +1,28 @@
 # Data Cube Explorer
+
+> **⚠️ DE Indonesia fork.** This repository is a fork of
+> [opendatacube/datacube-explorer](https://github.com/opendatacube/datacube-explorer),
+> maintained by [piksel-ina](https://github.com/piksel-ina) for the DE Indonesia
+> project. It is deployed as a **thin Docker wrapper** (see `Dockerfile.deindonesia`)
+> that layers DE Indonesia theme assets and a small number of **local Python patches**
+> onto the pinned upstream base image.
+>
+> ### Local patches to upstream
+>
+> All patches live in `Dockerfile.deindonesia` and are applied at build time with
+> `sed`. They exist because a specific upstream bug affects our production
+> workload; each patch should be **removed when the corresponding upstream fix
+> lands**.
+>
+> | Patch | Upstream issue | Applied file | Reason |
+> |---|---|---|---|
+> | `ST_Union(ST_MakeValid(footprint, 'method=structure'))` in `upsert_product_regions` | [#146](https://github.com/opendatacube/datacube-explorer/issues/146), [#172](https://github.com/opendatacube/datacube-explorer/issues/172), [#246](https://github.com/opendatacube/datacube-explorer/issues/246), [#251](https://github.com/opendatacube/datacube-explorer/issues/251) | `cubedash/index/postgis/_api.py` | Upstream `ST_Buffer(geom, 0)` self-repair is insufficient for some Element84 S2 L2A footprints — `cubedash-gen s2_l2a` fails with GEOS `TopologyException: side location conflict`. Fix uses PostGIS 3.2+ `ST_MakeValid(..., 'method=structure')` on individual footprints before `ST_Union`. |
+>
+> When bumping the pinned upstream base image, verify each patch's anchor still
+> matches the source (the `sed` commands include a `grep -q` guard that will
+> fail the build otherwise). When a patch is present in upstream, delete the
+> corresponding `RUN` block from `Dockerfile.deindonesia` and this table row.
+
 [![Linting](https://github.com/opendatacube/datacube-explorer/workflows/Code%20Linting/badge.svg)](https://github.com/opendatacube/datacube-explorer/actions?query=workflow%3ALinting)
 [![Tests](https://github.com/opendatacube/datacube-explorer/workflows/Tests/badge.svg)](https://github.com/opendatacube/datacube-explorer/actions?query=workflow%3ATests)
 [![Docker](https://github.com/opendatacube/datacube-explorer/workflows/Docker/badge.svg)](https://github.com/opendatacube/datacube-explorer/actions?query=workflow%3ADocker)

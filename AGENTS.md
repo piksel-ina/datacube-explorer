@@ -4,11 +4,11 @@ Fork of [datacube-explorer](https://github.com/opendatacube/datacube-explorer) c
 
 ## Architecture: thin-wrapper deployment
 
-The `deindonesia` theme is deployed as a **thin Docker wrapper** over the upstream image. The production image (`Dockerfile.deindonesia`) extends `ghcr.io/opendatacube/explorer:3.1.5-43-g8aaa2dba` and only copies in:
-- Compiled CSS (`base.css` + source map)
-- The `cubedash/themes/deindonesia/` directory
+The `deindonesia` theme is deployed as a **thin Docker wrapper** over the upstream image. The production image (`Dockerfile.deindonesia`) extends `ghcr.io/opendatacube/explorer:3.1.5-43-g8aaa2dba` and:
+- Copies in compiled CSS (`base.css` + source map) and the `cubedash/themes/deindonesia/` directory
+- Applies a small number of **local Python patches** via `sed` (see the "Local patches to upstream" table in `README.md`)
 
-No Python code is modified. All customisation is CSS + theme assets.
+Patches exist to work around specific upstream bugs; each should be removed when the corresponding upstream fix is released. The `sed` commands include a `grep -q` guard, so if a patch anchor stops matching (upstream drift or upstream fix landed) the build fails loudly.
 
 **CI**: `.github/workflows/build-deindonesia.yml` — manual dispatch, builds `Dockerfile.deindonesia`, pushes to AWS ECR (`dc-explorer` repo). Tags are `vYYYYMMDD-HHMM` in Asia/Jakarta timezone.
 
