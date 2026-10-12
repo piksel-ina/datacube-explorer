@@ -223,10 +223,9 @@ var OverviewMap = /** @class */ (function (_super) {
             zoom: defaultZoom,
             center: defaultCenter,
             layers: [
-                L.tileLayer("//cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
+                L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
                     maxZoom: 19,
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors,' +
-                        ' &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 })
             ],
             zoomControl: false,

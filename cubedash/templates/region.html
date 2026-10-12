@@ -91,12 +91,11 @@
 
     <script type="application/javascript">
 
-        const osm_carto_light = L.tileLayer(
-            "//cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+        const osm_base = L.tileLayer(
+            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
                 maxZoom: 7,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors,' +
-                ' &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }
         );
 
@@ -117,7 +116,7 @@
         const map = L.map("region-map", {
             zoom: 3,
             center: [-26.2756326, 134.9387844],
-            layers: [osm_carto_light, dataset_data],
+            layers: [osm_base, dataset_data],
             zoomControl: false,
             attributionControl: false,
             scrollWheelZoom: false
