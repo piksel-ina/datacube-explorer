@@ -20,3 +20,6 @@ RUN F=/app/lib/python3.12/site-packages/cubedash/index/postgis/_api.py && \
 COPY --chown=1000:1000 cubedash/static/base.css /app/lib/python3.12/site-packages/cubedash/static/base.css
 COPY --chown=1000:1000 cubedash/static/base.css.map /app/lib/python3.12/site-packages/cubedash/static/base.css.map
 COPY --chown=1000:1000 cubedash/themes/deindonesia/ /app/lib/python3.12/site-packages/cubedash/themes/deindonesia/
+COPY --chown=1000:1000 cubedash/static/overview.js /app/lib/python3.12/site-packages/cubedash/static/overview.js
+COPY --chown=1000:1000 cubedash/templates/dataset.html /app/lib/python3.12/site-packages/cubedash/templates/dataset.html
+COPY --chown=1000:1000 cubedash/templates/region.html /app/lib/python3.12/site-packages/cubedash/templates/region.html
